@@ -1,0 +1,47 @@
+// DBOperations.js
+// ... (other imports and configurations)
+
+const SubmitData = async (
+  name,
+  amount,
+  reason,
+  setName,
+  setAmount,
+  setReason
+) => {
+  let data = { name, amount, reason };
+  try {
+    const response = await databases.createDocument(
+      "655e2ed85bb706d92824",
+      "6562d89965fdfe494f82",
+      ID.unique(),
+      data
+    );
+    setName("");
+    setAmount("");
+    setReason("");
+    console.log(response);
+  } catch (error) {
+    console.error("Error submitting data:", error);
+  }
+};
+
+const ListDocuments = async (setTransactions) => {
+  try {
+    const response = await databases.listDocuments(
+      "655e2ed85bb706d92824",
+      "6562d89965fdfe494f82"
+    );
+    console.log(response);
+
+    if (Array.isArray(response.documents)) {
+      setTransactions(response.documents);
+    } else {
+      console.error("Response.documents is not an array:", response.documents);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { ListDocuments, SubmitData };
